@@ -1,0 +1,94 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Create_job_-_deploy_VM": {
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['azureautomation']['connectionId']"
+                        }
+                    },
+                    "method": "put",
+                    "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourceGroups/@{encodeURIComponent(parameters('ResourceGroupName'))}/providers/Microsoft.Automation/automationAccounts/@{encodeURIComponent(parameters('AutomationAccountName'))}/jobs",
+                    "queries": {
+                        "runbookName": "@parameters('RunbookName')",
+                        "wait": true,
+                        "x-ms-api-version": "2015-10-31"
+                    }
+                },
+                "runAfter": {},
+                "type": "ApiConnection"
+            },
+            "Get_job_output_-_deploy_VM": {
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['azureautomation']['connectionId']"
+                        }
+                    },
+                    "method": "get",
+                    "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourceGroups/@{encodeURIComponent(parameters('ResourceGroupName'))}/providers/Microsoft.Automation/automationAccounts/@{encodeURIComponent(parameters('AutomationAccountName'))}/jobs/@{encodeURIComponent(body('Create_job_-_deploy_VM')?['properties']?['jobId'])}/output",
+                    "queries": {
+                        "x-ms-api-version": "2015-10-31"
+                    }
+                },
+                "runAfter": {
+                    "Create_job_-_deploy_VM": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ApiConnection"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            },
+            "AutomationAccountName": {
+                "defaultValue": "aa-myAutomationAccountTest1",
+                "type": "String"
+            },
+            "ResourceGroupName": {
+                "defaultValue": "rg-abtis-workshop-afdmvjfqgge4k",
+                "type": "String"
+            },
+            "RunbookName": {
+                "defaultValue": "lab3",
+                "type": "String"
+            },
+            "SubscriptionId": {
+                "defaultValue": "xxx",
+                "type": "String"
+            }
+        },
+        "triggers": {
+            "manual": {
+                "inputs": {
+                    "schema": {}
+                },
+                "kind": "Http",
+                "type": "Request"
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+                "azureautomation": {
+                    "connectionId": "/subscriptions/xxx/resourceGroups/rg-abtis-workshop-afdmvjfqgge4k/providers/Microsoft.Web/connections/azureautomation",
+                    "connectionName": "azureautomation",
+                    "connectionProperties": {
+                        "authentication": {
+                            "type": "ManagedServiceIdentity"
+                        }
+                    },
+                    "id": "/subscriptions/xxx/providers/Microsoft.Web/locations/westeurope/managedApis/azureautomation"
+                }
+            }
+        }
+    }
+}
