@@ -4,10 +4,14 @@ BeforeAll {
         --query '[].name' `
         -o tsv
 
+    if(!$resourceGroupName) { break } 
+
     $automationAccountId = az automation account list `
         --query "[?resourceGroup=='$resourceGroupName'].id" `
         --output tsv  `
         --only-show-errors
+
+    if(!$automationAccountId) { break } 
 
     $automationAccountName = $automationAccountId -split '/' | Select-Object -Last 1
 
@@ -17,6 +21,8 @@ BeforeAll {
         --only-show-errors `
         --query "[?name=='lab1'].id" `
         -o tsv
+    
+    if(!$runbookId) { break } 
 
     $jobId = az automation runbook start `
         --ids $runbookId `
@@ -35,11 +41,27 @@ BeforeAll {
             --query 'status' `
             --only-show-errors `
             -o tsv
+        
+        if(!$jobStatus) { break } 
         Write-Host "Waiting for the runbook job to complete: ${i}/5" -ForegroundColor Magenta
         Start-Sleep -Seconds 5
         $i += 1
     } until ( $jobStatus -eq 'Completed' -or $i -eq 6)
 }
+
+Describe "Requirements" {
+
+    It "should have a resource group from an earlier lab" {
+        $resourceGroupName | Should -Not -BeNullOrEmpty
+    }
+
+    
+    It "should have an automation account an earlier lab" {
+        $automationAccountId | Should -Not -BeNullOrEmpty
+    }
+
+}
+
 
 Describe "Azure Automation Account" {
 
