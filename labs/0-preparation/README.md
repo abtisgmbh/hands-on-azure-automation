@@ -2,13 +2,29 @@
 
 The first steps that pave the ground for the following labs.
 
-Connect Azure CLI to your tenant:
+## Requirements
+
+- Ability to connect to an Azure subscription
+- Permissions to create resources in this subscription
+
+## Tasks
+
+### Connect Azure CLI to your tenant
 
 ```bash
 az login --tenant '{tenant id}'
 ```
 
-Create resource group with a unique name. Running the following bicep file will add a unique string based on the currently logged on user's account name to the resource group name:
+### Create a resource group
+
+Create resource group with a unique name. And create the following tags on the resource group:
+
+```yaml
+purpose: 'abtis Workshop'
+owner: 'Your user's email address'
+```
+
+Running the following bicep file will create these tags and add a unique string based on the currently logged on user's account name to the resource group name:
 
 ⌨️ Bash:
 
@@ -32,7 +48,7 @@ $resourceGroupName = az deployment sub create `
   -o tsv
 ```
 
-# Use Pester to see lab results
+### Use Pester to check if everything was done correctly
 
 ⌨️ Bash:
 
