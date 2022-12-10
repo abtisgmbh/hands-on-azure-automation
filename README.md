@@ -9,3 +9,5 @@
 - [Lab-2](labs/2-azureAutomationIdentity/README.md) - Login to Azure from an Azure Automation account using a Managed Identity.
 
 - [Lab-3](labs/3-azureAutomationDeployVMBicep/README.md) - Use an Automation Runbook to deploy a Azure Virtual Machine with bicep.
+
+- [Lab-4](labs/4-azureAutomationLogicApp/README.md) - Use an Azure Logic App to orchstrate a VM deployment with Azure Automation.

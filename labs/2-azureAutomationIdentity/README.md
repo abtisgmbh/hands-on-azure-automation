@@ -18,4 +18,4 @@ Run `Invoke-pester -Output Detailed` to check, if you have completed the lab.
 
 ## Solution
 
-[See here for the solution](solution.md).
+[See here for the solution](solution/README.md).

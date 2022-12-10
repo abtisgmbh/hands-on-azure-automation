@@ -15,3 +15,7 @@ Use an Automation Runbook to deploy a Azure Virtual Machine with bicep.
 - Upload a bicep file that creates a virtual machine to the `bicep` container and call it `vm/azuredeploy.bicep` 
 - Create a runbook named 'lab3' that uses the managed identity to connect to Azure
 - The runbook should use the bicep file from the blob storage to deploy the virtual machine
+
+## Solution
+
+[See here for the solution](solution/README.md).
