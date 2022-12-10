@@ -1,7 +1,7 @@
 
 ## Activate System Assigned Managed Identity
 
-Bash:
+⌨️ Bash:
 
 ```bash
 resourceGroupId=$(az group list \
@@ -9,10 +9,7 @@ resourceGroupId=$(az group list \
         --query '[].id' \
         -o tsv)
 
-resourceGroupName=$(az group list \
-        --tag owner="$(az account show --query 'user.name' -o tsv)" \
-        --query '[].name' \
-        -o tsv)
+resourceGroupName=$(echo $resourceGroupId | sed 's|.*/||g')
 
 automationAccountId=$(az automation account list \
     --query "[?resourceGroup=='$resourceGroupName'].id" \
